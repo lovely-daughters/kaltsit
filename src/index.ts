@@ -10,6 +10,8 @@ interface Region {
   h: number;
 }
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 /**
  * screenVSRefDiff()
  *
@@ -116,6 +118,9 @@ async function main() {
       arknights.refs.mission_start.imagePath,
       arknights.refs.mission_start.regionOfInterest
     );
+
+    // sleep from 0-5 seconds
+    await sleep(Math.random() * 5000);
 
     console.log("LOOKING FOR MISSION_RESULTS");
 
