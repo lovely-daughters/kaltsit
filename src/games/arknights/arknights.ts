@@ -9,6 +9,10 @@ export const arknights = {
       imagePath: path.join(refFolder, "start-1980-960-320-100.png"),
       regionOfInterest: { x: 1980, y: 960, w: 320, h: 100 },
     },
+    start_sulfitera: {
+      imagePath: path.join(refFolder, "start-sulfitera-1970-930-260-60.png"),
+      regionOfInterest: { x: 1970, y: 930, w: 260, h: 60 },
+    },
     mission_start: {
       imagePath: path.join(refFolder, "mission_start-1765-550-205-420.png"),
       regionOfInterest: { x: 1765, y: 550, w: 205, h: 420 },

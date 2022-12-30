@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <!-- <script  src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+  </head>
+
+  <body>
+    <div id="theater">
+      <div id="message"></div>
+
+      <div id="video-selection">
+        <input type="file" accept="video/*" style="font-size: 30; margin-bottom: 5;"/>
+        <br>
+        <video id="video" autoplay controls width="468" height="216"></video>
+      </div>
+
+      <div id="save-form" style="margin-bottom: 5; ">
+        <p id="coords-text" style="font-weight: bold; font-size: 36;">X:0, Y:0, W:0, H:0</p>
+        <input id="file-name" type="text" placeholder="FILE NAME" style="width: 100%; padding: 10;  font-size: 36;"/>
+        <button id="download-canvas" type="button" style="width: 100%; font-size: 36; padding: 10; background-color: rgb(83, 129, 83); color: rgb(243, 233, 233)">DOWNLOAD</button>
+      </div>
+      <canvas id="canvas" width=2340 height=1080></canvas>
+
+    </div>
+  </body>
+
+  <script src="asdf.js"></script>
+</html>

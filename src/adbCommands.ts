@@ -1,5 +1,7 @@
 import { execSync } from "child_process";
 
+const device = "R5CT4204DLY";
+
 export const adbCommands = {
   wakeUp: () => {
     execSync(`adb shell "input keyevent KEYCODE_WAKEUP"`);
@@ -9,7 +11,7 @@ export const adbCommands = {
     execSync(`adb shell "input keyevent 66"`);
   },
   tap: (location: [number, number]) => {
-    execSync(`adb shell "input tap ${location.join(" ")}"`);
+    execSync(`adb -s ${device} shell "input tap ${location.join(" ")}"`);
   },
   swipe: (
     startLocation: [number, number],
@@ -26,6 +28,6 @@ export const adbCommands = {
     execSync(`adb shell "am start -n ${activityName}"`);
   },
   screencap: () => {
-    execSync(`adb exec-out screencap -p > screen.png`);
+    execSync(`adb -s ${device} exec-out screencap -p > screen.png`);
   },
 };
