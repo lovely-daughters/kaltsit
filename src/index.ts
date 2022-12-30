@@ -288,4 +288,4 @@ async function test2() {
 // mainArknights();
 // mainEpic7();
 // test();
-test2();
+// test2();

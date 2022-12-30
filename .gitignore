@@ -132,6 +132,6 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-*/.DS_Store
-screen.png
+*.DS_Store
 recordings
+temp
