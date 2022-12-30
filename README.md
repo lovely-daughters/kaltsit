@@ -1,9 +1,9 @@
 # bondservant
 
-## What is this?
+## Purpose
 
-Means to automate gacha dailies through using adb (android debug bridge) & jimp (javascript image manipulation package)
+Automate gacha dailies through using adb & jimp
 
 ## Notable Things
 
-Under utils/imagecoord_assist, there's a web app to assist with reference labeling.
+Under utils/imagecoord_assist, there's a webapp to assist with reference labeling.
