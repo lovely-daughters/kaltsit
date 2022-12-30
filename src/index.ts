@@ -3,122 +3,14 @@ import path from "path";
 import { adbCommands } from "./adbCommands";
 import { arknights } from "./games/arknights/arknights";
 import { epic7 } from "./games/epic7/epic7";
+import { Region } from "./types/Region";
+import {
+  sleep,
+  screenVSRefDiff,
+  tapRegion,
+  ensureStateChange,
+} from "./execution";
 
-interface Region {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
-
-/**
- * screenVSRefDiff()
- *
- * calculates percentage difference between the current screen (obtained through screenshot) and the reference image provided
- *
- * @param refPath
- * @param regionOfInterest
- * @param saveDiff
- * @returns percentage difference (lower => better)
- */
-async function screenVSRefDiff(
-  refPath: string,
-  regionOfInterest?: Region,
-  saveImages?: boolean
-): Promise<number> {
-  adbCommands.screencap();
-
-  let ref = await Jimp.read(refPath);
-  let screen = await Jimp.read(path.join(__dirname, "..", "screen.png"));
-
-  if (saveImages) {
-    ref.write("diffs/1-ref.png");
-    screen.write("diffs/2-screen.png");
-  }
-
-  if (regionOfInterest) {
-    const { x, y, w, h } = regionOfInterest;
-    ref = await ref.crop(x, y, w, h);
-    screen = await screen.crop(x, y, w, h);
-  }
-
-  const diff = Jimp.diff(ref, screen);
-
-  if (saveImages) {
-    ref.write("diffs/3-ref-crop.png");
-    screen.write("diffs/4-screen-crop.png");
-    diff.image.write("diffs/5-diff.png");
-  }
-
-  return diff.percent;
-}
-
-/**
- * tapRegion()
- *
- * generates an adb tap command in the region provided
- * adds on some variance for anti-ban purposes
- *
- * @param region
- * @param variance
- */
-async function tapRegion(region: Region, variance = 0.15) {
-  const { x, y, w, h } = region;
-
-  let cX = (x + w / 2) | 0;
-  let cY = (y + h / 2) | 0;
-
-  if (variance) {
-    const vX = (Math.random() * 2 - 1) * ((w * variance) | 0);
-    const vY = (Math.random() * 2 - 1) * ((h * variance) | 0);
-    cX += vX;
-    cY += vY;
-  }
-
-  adbCommands.tap([cX, cY]);
-}
-
-async function ensureStateChange(
-  refPath: string,
-  regionOfInterest: Region,
-  diffThresh = 0.1,
-  verbose = false
-) {
-  if (verbose) console.log("ensuring existence");
-
-  // ensure the region exists
-  while (true) {
-    const pDiff = await screenVSRefDiff(refPath, regionOfInterest);
-
-    if (pDiff < diffThresh) {
-      break;
-    }
-  }
-
-  if (verbose) console.log("existence ensured");
-
-  if (verbose) console.log("ensuring dissapearance");
-  tapRegion(regionOfInterest);
-  if (verbose) console.log("dissapearance theoretically ensured");
-
-  // should in theory only need to tap once to ensure dissapearance
-  // might not need the while loop to continually check
-  // ensure the state changes
-  // old continual tap code
-  // while (true) {
-  //   await sleep(1000);
-  //   const pDiff = await screenVSRefDiff(refPath, regionOfInterest);
-  //   if (pDiff > diffThresh) {
-  //     break;
-  //   } else {
-  //     tapRegion(regionOfInterest);
-  //   }
-  // }
-
-  // console.log("dissapearance ensured");
-}
 // try to only tap when absolutely sure
 // need to think about how to deal with wrong taps during state transition periods
 async function mainArknights() {
@@ -230,62 +122,5 @@ async function mainEpic7() {
   }
 }
 
-async function test() {
-  const interest = [
-    epic7.refs.select_team,
-    epic7.refs.start,
-    epic7.refs.stage_clear,
-    epic7.refs.add_friend,
-    epic7.refs.confirm_result,
-    epic7.refs.try_again,
-  ];
-  const out = await screenVSRefDiff(
-    interest[2].imagePath,
-    interest[2].regionOfInterest,
-    true
-  );
-
-  console.log(out);
-}
-
-import { pncRef } from "./games/pnc/reference";
-
-async function test2() {
-  const split = pncRef.login.away_too_long.split(".")[0].split("-");
-
-  const roi: Region = {
-    x: Number(split[split.length - 4]) + 3,
-    y: Number(split[split.length - 3]) + 3,
-    w: Number(split[split.length - 2]) - 6, // Need to double since shifting x&y also 'shift' width and height
-    h: Number(split[split.length - 1]) - 6,
-  };
-
-  const out = await screenVSRefDiff(pncRef.login.away_too_long, roi, true);
-
-  console.log(out);
-
-  // await ensureStateChange(pncRef.login.away_too_long, roi, 0.9);
-}
-
-// interest.forEach(
-//   async (ref: {
-//     imagePath: string;
-//     regionOfInterest: { x: number; y: number; w: number; h: number };
-//   }) => {
-//     console.log(ref.imagePath);
-
-//     await ensureStateChange(ref.imagePath, ref.regionOfInterest);
-//   }
-// );
-
-// async function test() {
-//   await ensureStateChange(
-//     epic7.refs.select_team.imagePath,
-//     epic7.refs.select_team.regionOfInterest
-//   );
-// }
-
 // mainArknights();
 // mainEpic7();
-// test();
-// test2();
