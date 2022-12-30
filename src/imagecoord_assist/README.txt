@@ -1,5 +1,7 @@
 # IMAGECOORD_ASSIST
 
+Support Program
+
 ## Problem
 Getting the coordinates for bounding boxes is a pain.
 I have to take a screenshot, open up a paint program, and manually map out the coordinates. Then I have to save that all to the filename. Ends up taking a little over a minute for each. 

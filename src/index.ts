@@ -248,6 +248,25 @@ async function test() {
   console.log(out);
 }
 
+import { pncRef } from "./games/pnc/reference";
+
+async function test2() {
+  const split = pncRef.login.away_too_long.split(".")[0].split("-");
+
+  const roi: Region = {
+    x: Number(split[split.length - 4]) + 3,
+    y: Number(split[split.length - 3]) + 3,
+    w: Number(split[split.length - 2]) - 6, // Need to double since shifting x&y also 'shift' width and height
+    h: Number(split[split.length - 1]) - 6,
+  };
+
+  const out = await screenVSRefDiff(pncRef.login.away_too_long, roi, true);
+
+  console.log(out);
+
+  // await ensureStateChange(pncRef.login.away_too_long, roi, 0.9);
+}
+
 // interest.forEach(
 //   async (ref: {
 //     imagePath: string;
@@ -267,5 +286,6 @@ async function test() {
 // }
 
 // mainArknights();
-mainEpic7();
+// mainEpic7();
 // test();
+test2();
