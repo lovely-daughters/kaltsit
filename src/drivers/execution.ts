@@ -76,6 +76,23 @@ export async function tapRegion(roi: RegionOfInterest, variance = 0.15) {
   adbCommands.tap([cX, cY]);
 }
 
+export async function swipeAcrossRegion(
+  roi: RegionOfInterest,
+  direction: "UP" | "DOWN",
+  durationMS = 1000
+) {
+  const p1: [number, number] = [roi.x + Math.round(roi.width / 2), roi.y];
+  const p2: [number, number] = [
+    roi.x + Math.round(roi.width / 2),
+    roi.y + roi.height,
+  ];
+
+  const startLocation = direction == "DOWN" ? p1 : p2;
+  const endLocation = direction == "DOWN" ? p2 : p1;
+
+  adbCommands.swipe(startLocation, endLocation, durationMS);
+}
+
 /**
  * causeEffect()
  *
@@ -108,19 +125,24 @@ export function conditionGenerator(
 ): () => Promise<Boolean> {
   const reference = referenceMap.get(referenceName)!;
   return async () => {
-    console.log(reference.name);
+    console.log(`COM: ${reference.name}`);
     return (await screenVSRefDiff(reference)) < thresh;
   };
 }
 
 export function actionGenerator(
   referenceMap: Map<string, Reference>,
-  referenceName: string
+  referenceName: string,
+  actionType: "TAP" | "SWIPE_UP" | "SWIPE_DOWN" = "TAP"
 ): () => Promise<void> {
   const reference = referenceMap.get(referenceName)!;
   return async () => {
-    console.log(reference.name);
-    await tapRegion(reference.roi);
+    console.log(`${actionType}: ${reference.name}`);
+    if (actionType == "TAP") await tapRegion(reference.roi);
+    else if (actionType == "SWIPE_UP")
+      await swipeAcrossRegion(reference.roi, "UP");
+    else if (actionType == "SWIPE_DOWN")
+      await swipeAcrossRegion(reference.roi, "DOWN");
   };
 }
 

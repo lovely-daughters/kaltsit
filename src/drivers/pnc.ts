@@ -85,27 +85,131 @@ async function announcements() {
   );
 }
 
-async function factory() {
+async function claimFactory() {
   await causeEffect(
     conditionGenerator(pncRefs, "03_factory_collection/open_factory"),
     actionGenerator(pncRefs, "03_factory_collection/open_factory")
   );
+
+  await causeEffect(
+    conditionGenerator(pncRefs, "03_factory_collection/open_order_list"),
+    actionGenerator(pncRefs, "03_factory_collection/open_order_list")
+  );
+
+  await causeEffect(
+    conditionGenerator(
+      pncRefs,
+      "03_factory_collection/all_production_completed"
+    ),
+    actionGenerator(pncRefs, "03_factory_collection/production_list_close"),
+    /**
+     * if not all orders are claimed
+     * claim the next order
+     */
+    async () => {
+      await actionGenerator(pncRefs, "03_factory_collection/claim_order")();
+      await causeEffect(
+        // acknowledge rewards
+        conditionGenerator(
+          pncRefs,
+          "03_factory_collection/claim_order_rewards",
+          0.3
+        ),
+        actionGenerator(
+          pncRefs,
+          "03_factory_collection/claim_order_rewards_close"
+        )
+      );
+    }
+  );
 }
 
-async function pnc() {
-  console.log(
-    await screenVSRefDiff(
-      pncRefs.get("04_basic_search/basic_search_insufficient")!
+async function resetFactory() {
+  // await causeEffect(
+  //   conditionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_extraction_mine",
+  //     0.4
+  //   ),
+  //   actionGenerator(pncRefs, "03_factory_collection/factory_extraction_mine")
+  // );
+  // await causeEffect(
+  //   conditionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_extraction_mine_low_poly_rhombus"
+  //   ),
+  //   actionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_extraction_mine_low_poly_rhombus"
+  //   )
+  // );
+  // await causeEffect(
+  //   conditionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_extraction_mine_low_poly_rhombus"
+  //   ),
+  //   actionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_extraction_mine_low_poly_rhombus"
+  //   )
+  // );
+  // await causeEffect(
+  //   conditionGenerator(pncRefs, "03_factory_collection/factory_production_max"),
+  //   actionGenerator(pncRefs, "03_factory_collection/factory_production_max")
+  // );
+  // await causeEffect(
+  //   conditionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_production_max_start"
+  //   ),
+  //   actionGenerator(
+  //     pncRefs,
+  //     "03_factory_collection/factory_production_max_start"
+  //   )
+  // );
+
+  await causeEffect(
+    conditionGenerator(pncRefs, ""),
+    actionGenerator(
+      pncRefs,
+      "03_factory_collection/factory_production_list_swipe_region",
+      "SWIPE_UP"
     )
   );
 }
 
+async function pnc() {
+  // basicSearch();
+  // awayTooLong()
+  // login();
+  // announcements();
+  // await claimFactory();
+  await resetFactory();
+
+  // console.log(
+  //   await screenVSRefDiff(
+  //     pncRefs.get("04_basic_search/basic_search_insufficient")!
+  //   )
+  // );
+}
+
 // pnc();
-// basicSearch();
-// awayTooLong()
-// login();
-// announcements();
-factory();
+
+actionGenerator(
+  pncRefs,
+  "03_factory_collection/factory_production_list_swipe_region",
+  "SWIPE_UP"
+)();
+actionGenerator(
+  pncRefs,
+  "03_factory_collection/factory_production_list_swipe_region",
+  "SWIPE_UP"
+)();
+actionGenerator(
+  pncRefs,
+  "03_factory_collection/factory_production_list_swipe_region",
+  "SWIPE_UP"
+)();
 
 // More execution type functions needed
 // Click until image found exists - Navigating Neural Search Tabs
