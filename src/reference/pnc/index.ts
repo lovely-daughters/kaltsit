@@ -35,5 +35,3 @@ imagePaths.forEach((imagePath) => {
 
   pncRefs.set(referenceName, { imagePath, roi });
 });
-
-console.log(pncRefs);

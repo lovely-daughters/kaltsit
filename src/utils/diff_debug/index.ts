@@ -10,7 +10,7 @@ import {
   screenVSRefDiff,
   tapRegion,
   ensureStateChange,
-} from "../../execution";
+} from "../../execution-old";
 
 async function test() {
   const interest = [

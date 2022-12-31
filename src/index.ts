@@ -9,7 +9,7 @@ import {
   screenVSRefDiff,
   tapRegion,
   ensureStateChange,
-} from "./execution";
+} from "./execution-old";
 
 // try to only tap when absolutely sure
 // need to think about how to deal with wrong taps during state transition periods

@@ -1,3 +1,4 @@
+import path from "path";
 import { execSync } from "child_process";
 
 const device = "R5CT4204DLY";
@@ -28,6 +29,13 @@ export const adbCommands = {
     execSync(`adb shell "am start -n ${activityName}"`);
   },
   screencap: () => {
-    execSync(`adb -s ${device} exec-out screencap -p > screen.png`);
+    execSync(
+      `adb -s ${device} exec-out screencap -p > ${path.join(
+        __dirname,
+        "..",
+        "temp",
+        "screen.png"
+      )}`
+    );
   },
 };
