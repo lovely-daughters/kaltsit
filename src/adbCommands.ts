@@ -32,9 +32,8 @@ export const adbCommands = {
     execSync(
       `adb -s ${device} exec-out screencap -p > ${path.join(
         __dirname,
-        "..",
-        "temp",
-        "screen.png"
+        "../temp",
+        "screenshot.png"
       )}`
     );
   },
