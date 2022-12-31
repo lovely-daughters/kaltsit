@@ -96,3 +96,12 @@ export async function ensureStateChange(
   tapRegion(reference.roi!);
   if (verbose) console.log("dissapearance theoretically ensured");
 }
+
+export async function clickRefUntilRefFound(
+  clickRef: Reference,
+  searchRef: Reference
+) {
+  while ((await screenVSRefDiff(searchRef)) > 0.05) {
+    tapRegion(clickRef.roi!);
+  }
+}
