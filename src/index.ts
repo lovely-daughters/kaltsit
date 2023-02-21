@@ -9,6 +9,8 @@ import {
   screenVSRefDiff,
   tapRegion,
   ensureStateChange,
+  Reference,
+  ensureStateChangeMulti,
 } from "./execution-old";
 
 // try to only tap when absolutely sure
@@ -122,5 +124,42 @@ async function mainEpic7() {
   }
 }
 
+async function mainEpic7_2() {
+  while (true) {
+    console.log("NEW LOOP");
+
+    await ensureStateChangeMulti([epic7.refs.select_team]);
+    await sleep(1000);
+    console.log("SELECT TEAM");
+
+    await ensureStateChangeMulti([epic7.refs.start]);
+    await sleep(1000);
+    console.log("START");
+
+    await ensureStateChangeMulti([epic7.refs.stage_clear]);
+    await sleep(1000);
+    console.log("STAGE CLEAR");
+
+    const result = await ensureStateChangeMulti([
+      epic7.refs.add_friend,
+      epic7.refs.confirm_result,
+    ]);
+
+    if (result == epic7.refs.add_friend.imagePath) {
+      console.log("ADD FRIEND DETECTED");
+      await sleep(1000);
+      await ensureStateChangeMulti([epic7.refs.confirm_result]);
+      await sleep(1000);
+      await ensureStateChangeMulti([epic7.refs.try_again]);
+      await sleep(1000);
+    } else {
+      console.log("CONFIRM RESULT DETECTED");
+      await sleep(1000);
+      await ensureStateChangeMulti([epic7.refs.try_again]);
+      await sleep(1000);
+    }
+  }
+}
+
 // mainArknights();
-mainEpic7();
+mainEpic7_2();

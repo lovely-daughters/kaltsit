@@ -24,7 +24,9 @@ export async function screenVSRefDiff(
   adbCommands.screencap();
 
   let ref = await Jimp.read(refPath);
-  let screen = await Jimp.read(path.join(__dirname, "..", "screen.png"));
+  let screen = await Jimp.read(
+    path.join(__dirname, "..", "temp", "screenshot.png")
+  );
 
   if (saveImages) {
     ref.write("diffs/1-ref.png");
@@ -111,4 +113,35 @@ export async function ensureStateChange(
   // }
 
   // console.log("dissapearance ensured");
+}
+
+export interface Reference {
+  imagePath: string;
+  regionOfInterest: Region;
+  diffThresh: number;
+}
+export async function ensureStateChangeMulti(
+  references: Reference[],
+  verbose = false
+) {
+  if (verbose) console.log("ensuring existence");
+
+  // ensure the region exists
+  while (true) {
+    for (const reference of references) {
+      const pDiff = await screenVSRefDiff(
+        reference.imagePath,
+        reference.regionOfInterest
+      );
+      if (pDiff < reference.diffThresh) {
+        if (verbose) console.log("existence ensured");
+
+        if (verbose) console.log("ensuring dissapearance");
+        tapRegion(reference.regionOfInterest);
+        if (verbose) console.log("dissapearance theoretically ensured");
+
+        return reference.imagePath;
+      }
+    }
+  }
 }
