@@ -8,9 +8,17 @@
       <div id="message"></div>
 
       <div id="video-selection">
-        <input type="file" accept="video/*" style="font-size: 30; margin-bottom: 5;"/>
+        <h2>VIDEO</h2>
+        <input id="video-input" type="file" accept="video/*" style="font-size: 30; margin-bottom: 5;"/>
         <br>
         <video id="video" autoplay controls width="468" height="216"></video>
+      </div>
+
+      <div id="image-selection">
+        <h2>IMAGE</h2>
+        <input id="image-input" type="file" accept="image/*" style="font-size: 30; margin-bottom: 5;"/>
+        <br>
+        <img id="image" width="468" height="216">
       </div>
 
       <div id="save-form" style="margin-bottom: 5; ">
@@ -24,4 +32,5 @@
   </body>
 
   <script src="asdf.js"></script>
+  <script src="qwer.js"></script>
 </html>

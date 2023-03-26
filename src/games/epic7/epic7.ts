@@ -2,6 +2,17 @@ import path from "path";
 
 const refFolder = path.join(__dirname, "reference");
 
+interface Reference {
+  imagePath: string;
+  regionOfInterest: {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+  };
+  diffThresh: number;
+}
+
 export const epic7 = {
   initActivity: "com.stove.epic7.google/kr.supercreative.epic7.AppActivity",
   refs: {
@@ -35,5 +46,31 @@ export const epic7 = {
       regionOfInterest: { x: 1895, y: 950, w: 405, h: 100 },
       diffThresh: 0.25,
     },
-  },
+  } satisfies Record<string, Reference>,
+  banshee_refs: {
+    start: {
+      imagePath: path.join(
+        refFolder,
+        "banshee_start-1933-941.28125-280-89.png"
+      ),
+      regionOfInterest: { x: 1933, y: 941, w: 280, h: 89 },
+      diffThresh: 0.5,
+    },
+    confirm: {
+      imagePath: path.join(
+        refFolder,
+        "banshee_confirm-1971-951.28125-240-84.png"
+      ),
+      regionOfInterest: { x: 1971, y: 951, w: 240, h: 84 },
+      diffThresh: 0.5,
+    },
+    tryagain: {
+      imagePath: path.join(
+        refFolder,
+        "banshee_tryagain-2006-954.28125-202-73.png"
+      ),
+      regionOfInterest: { x: 2006, y: 954, w: 202, h: 73 },
+      diffThresh: 0.5,
+    },
+  } satisfies Record<string, Reference>,
 };

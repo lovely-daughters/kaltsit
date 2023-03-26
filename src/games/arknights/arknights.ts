@@ -2,6 +2,32 @@ import path from "path";
 
 const refFolder = path.join(__dirname, "reference");
 
+interface Reference {
+  imagePath: string;
+  regionOfInterest;
+}
+
+// const referenceMap = {
+//   start: {
+//     imagePath: "asdf",
+//     regionOfInterest: "asdf",
+//   },
+// } satisfies Record<string, Reference>;
+// const referenceMap: Record<string, Reference> = {
+//   start: {
+//     imagePath: "asdf",
+//     regionOfInterest: "asdf",
+//   },
+// };
+
+// typescript 4.9
+// you can retain intellisense whilst ensuring that something is of a certain type
+// holy shit, this is so nice
+// make sure it matches some type, but you also want to ensure you can have inference for the specific values
+
+// satisfies seems extremely useful
+// when you want to ensure something is of a certain type, but want to keep specificity for inference
+
 export const arknights = {
   initActivity: "com.YoStarEN.Arknights/com.u8.sdk.U8UnityContext",
   refs: {

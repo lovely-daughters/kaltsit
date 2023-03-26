@@ -23,7 +23,7 @@ var playSelectedFile = function (event) {
   var fileURL = URL.createObjectURL(file);
   videoNode.src = fileURL;
 };
-var inputNode = document.querySelector("input");
+var inputNode = document.getElementById("video-input");
 inputNode.addEventListener("change", playSelectedFile, false);
 
 var canvas = document.getElementById("canvas");
