@@ -161,5 +161,23 @@ async function mainEpic7_2() {
   }
 }
 
+async function mainE73() {
+  while (true) {
+    console.log("NEW LOOP");
+
+    await sleep(1000);
+    await ensureStateChangeMulti([epic7.banshee_refs.start], true);
+    console.log("STARTING");
+
+    await sleep(20 * 60 * 1000);
+    await ensureStateChangeMulti([epic7.banshee_refs.confirm], true);
+    console.log("ruNS DONE");
+
+    await sleep(1000);
+    await ensureStateChangeMulti([epic7.banshee_refs.tryagain], true);
+    console.log("TRYING AGAIN");
+  }
+}
 // mainArknights();
-mainEpic7_2();
+// mainEpic7_2();
+mainE73();

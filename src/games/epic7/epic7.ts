@@ -54,7 +54,7 @@ export const epic7 = {
         "banshee_start-1933-941.28125-280-89.png"
       ),
       regionOfInterest: { x: 1933, y: 941, w: 280, h: 89 },
-      diffThresh: 0.5,
+      diffThresh: 0.35,
     },
     confirm: {
       imagePath: path.join(
@@ -62,7 +62,7 @@ export const epic7 = {
         "banshee_confirm-1971-951.28125-240-84.png"
       ),
       regionOfInterest: { x: 1971, y: 951, w: 240, h: 84 },
-      diffThresh: 0.5,
+      diffThresh: 0.1,
     },
     tryagain: {
       imagePath: path.join(
@@ -70,7 +70,7 @@ export const epic7 = {
         "banshee_tryagain-2006-954.28125-202-73.png"
       ),
       regionOfInterest: { x: 2006, y: 954, w: 202, h: 73 },
-      diffThresh: 0.5,
+      diffThresh: 0.35,
     },
   } satisfies Record<string, Reference>,
 };

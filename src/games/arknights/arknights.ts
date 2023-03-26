@@ -4,7 +4,7 @@ const refFolder = path.join(__dirname, "reference");
 
 interface Reference {
   imagePath: string;
-  regionOfInterest;
+  regionOfInterest: any;
 }
 
 // const referenceMap = {

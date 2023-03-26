@@ -143,5 +143,6 @@ export async function ensureStateChangeMulti(
         return reference.imagePath;
       }
     }
+    await new Promise((resolve) => setTimeout(resolve, 1000));
   }
 }
